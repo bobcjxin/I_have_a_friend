@@ -22,6 +22,7 @@ short_path_right = os.path.join(os.path.dirname(__file__), 'talk_short_right.png
 short_path_head_img = os.path.join(os.path.dirname(__file__), 'talk_head_img.png')
 tlmt = hoshino.util.DailyNumberLimiter(10)
 
+
 def check_lmt(uid): #次数限制
     flmt_g = hoshino.util.FreqLimiter(0)
     if uid in hoshino.config.SUPERUSERS:
@@ -31,9 +32,11 @@ def check_lmt(uid): #次数限制
     tlmt.increase(uid,1)
     return 0, ''
 
+
 async def member_list_load(bot,gid):
     _list = await bot.get_group_member_list(group_id = gid)
     return _list
+
 
 class IDloader:
     def __init__(self, bot, ev, member_list, mode=1):
@@ -104,12 +107,14 @@ class IDloader:
         
     def load_text_prefix(self, ev):
         return ev.message.extract_plain_text().strip()
-        
+
+
 async def request_img(uid):
     response = await hoshino.aiorequests.get(f' http://q1.qlogo.cn/g?b=qq&nk={uid}&s=100', headers=headers)
     image = Image.open(BytesIO(await response.content))
     image = image.resize((125, 125), Image.ANTIALIAS)
     return image
+
 
 def strQ2B(c):  #全角全部强制转半角（懒得处理全角符号的长度了）
     _c = ord(c)
@@ -118,7 +123,8 @@ def strQ2B(c):  #全角全部强制转半角（懒得处理全角符号的长度
     elif 65281 <= _c <= 65374:
         _c -= 65248
     return chr(_c)
-    
+
+
 def get_text_len(text):
     len_ = 0
     for i in text:
@@ -127,7 +133,8 @@ def get_text_len(text):
         else:
             len_ += 26
     return len_
-    
+
+
 def remake_text(text): #对文本重新分行
     temp = ''
     len_ = 0
@@ -152,6 +159,7 @@ def remake_text(text): #对文本重新分行
     if temp != '':
         text_list.append(temp)
     return text_list
+
 
 async def make_pic(uid,text,name):
     padding = [230,120]
@@ -205,6 +213,7 @@ async def make_pic(uid,text,name):
 
     return msg1
 
+
 def sex_get(text):
     sex = ''
     if text[0] == '他': #简单的识别一下朋友性别
@@ -227,6 +236,7 @@ def sex_get(text):
 
     return sex, _text
 
+
 @sv.on_prefix('我朋友说')
 async def my_friend_say(bot, ev):
     user_id = ev.user_id
@@ -244,14 +254,16 @@ async def my_friend_say(bot, ev):
     msg = await make_pic(uid,text,'朋友')
     await bot.send(ev, msg)
 
+
 @sv.on_rex(r'^(.*)酱说(.*)')
 async def group_owner_say(bot, ev):
     user_id = ev.user_id
     flag, msg = check_lmt(user_id)
     if flag:
-        await bot.send(ev, msg, at_sender = True)
+        await bot.send(ev, msg, at_sender=True)
         return
-    member_list = await member_list_load(bot,ev.group_id)
+    member_list = await member_list_load(bot, ev.group_id)
+    print(member_list)
     info = IDloader(bot, ev, member_list, 2)
     name = info.name if info.name else info.at_name
     text = info.text
