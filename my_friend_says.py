@@ -98,6 +98,7 @@ class IDloader:
     
     def load_text_match(self, ev):
         match = ev.match
+        print('----------------%s' % ev['match'].group(1))
         self.name = str.strip(ev['match'].group(1))
         print('----------------%s' % self.name)
         if not self.at_qq:
