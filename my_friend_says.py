@@ -98,9 +98,7 @@ class IDloader:
     
     def load_text_match(self, ev):
         match = ev.match
-        print('----------------%s' % ev['match'].group(1))
         self.name = str.strip(ev['match'].group(1))
-        print('----------------%s' % self.name)
         if not self.at_qq:
             for member in self.member_list:
                 if (member['card'] and member['card'] == self.name) or member['nickname'] == self.name:
