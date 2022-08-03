@@ -99,6 +99,7 @@ class IDloader:
     def load_text_match(self, ev):
         match = ev.match
         self.name = str.strip(ev['match'].group(1))
+        print('----------------%s' % self.name)
         if not self.at_qq:
             for member in self.member_list:
                 if (member['card'] and member['card'] == self.name) or member['nickname'] == self.name:
@@ -263,7 +264,18 @@ async def group_owner_say(bot, ev):
         await bot.send(ev, msg, at_sender=True)
         return
     member_list = await member_list_load(bot, ev.group_id)
-    print(member_list)
+    # print(member_list)
+    """
+        [{'age': 0, 'area': '', 'card': '', 'card_changeable': False, 'group_id': 967190317, 'join_time': 1633748966, 'last_sent_time': 1633748966, 'level': '1', 'nickname': '余蕙', 'role': 'member', 'sex': 'female', 'shut_up_timestamp': 0, 'title': '', 'title_expire_time': 0, 'unfriendly': False, 'user_id': 123233086},
+        {'age': 0, 'area': '', 'card': '', 'card_changeable': False, 'group_id': 967190317, 'join_time': 1628439326, 'last_sent_time': 1658722323, 'level': '1', 'nickname': 'Haolun', 'role': 'owner', 'sex': 'male', 'shut_up_timestamp': 0, 'title': '', 'title_expire_time': 0, 'unfriendly': False, 'user_id': 164587778},
+        {'age': 0, 'area': '', 'card': '', 'card_changeable': False, 'group_id': 967190317, 'join_time': 1629549555, 'last_sent_time': 1658722271, 'level': '1', 'nickname': 'Kvhcc.....囧', 'role': 'admin', 'sex': 'male', 'shut_up_timestamp': 0, 'title': '', 'title_expire_time': 0, 'unfriendly': False, 'user_id': 196301027},
+        {'age': 0, 'area': '', 'card': '', 'card_changeable': False, 'group_id': 967190317, 'join_time': 1628439395, 'last_sent_time': 1658646887, 'level': '1', 'nickname': '綾芽', 'role': 'admin', 'sex': 'unknown', 'shut_up_timestamp': 0, 'title': '', 'title_expire_time': 0, 'unfriendly': False, 'user_id': 249022132},
+        {'age': 0, 'area': '', 'card': '', 'card_changeable': False, 'group_id': 967190317, 'join_time': 1628439326, 'last_sent_time': 1658675708, 'level': '1', 'nickname': '『 蕉の葰 』', 'role': 'admin', 'sex': 'male', 'shut_up_timestamp': 0, 'title': '', 'title_expire_time': 0, 'unfriendly': False, 'user_id': 330128901},
+        {'age': 0, 'area': '', 'card': '', 'card_changeable': False, 'group_id': 967190317, 'join_time': 1628439326, 'last_sent_time': 1658722767, 'level': '1', 'nickname': 'UminekoX', 'role': 'admin', 'sex': 'male', 'shut_up_timestamp': 0, 'title': '', 'title_expire_time': 0, 'unfriendly': False, 'user_id': 448997329},
+        {'age': 0, 'area': '', 'card': '', 'card_changeable': False, 'group_id': 967190317, 'join_time': 1628439326, 'last_sent_time': 1658722719, 'level': '1', 'nickname': 'Shinn鐘', 'role': 'admin', 'sex': 'male', 'shut_up_timestamp': 0, 'title': '', 'title_expire_time': 0, 'unfriendly': False, 'user_id': 497006897},
+        {'age': 0, 'area': '', 'card': '', 'card_changeable': False, 'group_id': 967190317, 'join_time': 1629551703, 'last_sent_time': 1657792994, 'level': '1', 'nickname': 'HigurashiX', 'role': 'member', 'sex': 'male', 'shut_up_timestamp': 0, 'title': '', 'title_expire_time': 0, 'unfriendly': False, 'user_id': 2310253942},
+        {'age': 0, 'area': '', 'card': '叶老弟', 'card_changeable': False, 'group_id': 967190317, 'join_time': 1633748710, 'last_sent_time': 1658711789, 'level': '1', 'nickname': 'Alan', 'role': 'member', 'sex': 'male', 'shut_up_timestamp': 0, 'title': '', 'title_expire_time': 0, 'unfriendly': False, 'user_id': 2471689997}]
+        """
     info = IDloader(bot, ev, member_list, 2)
     name = info.name if info.name else info.at_name
     text = info.text
