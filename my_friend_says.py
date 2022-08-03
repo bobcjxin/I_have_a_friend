@@ -101,7 +101,7 @@ class IDloader:
         self.name = str.strip(ev['match'].group(1))
         if not self.at_qq:
             for member in self.member_list:
-                if (member['card'] and member['card'] == self.name) or member['nickname'] == self.name:
+                if (member['card'] and member['card'].lower() == self.name.lower()) or member['nickname'].lower() == self.name.lower():
                     self.at_qq = member['user_id']
         return str.strip(ev['match'].group(2))
         
@@ -255,7 +255,7 @@ async def my_friend_say(bot, ev):
     await bot.send(ev, msg)
 
 
-@sv.on_rex(r'^(.*)酱说(.*)')
+@sv.on_rex(r'^(.*)酱说(.*)', normalize=False)
 async def group_owner_say(bot, ev):
     user_id = ev.user_id
     flag, msg = check_lmt(user_id)
